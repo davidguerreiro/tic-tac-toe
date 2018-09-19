@@ -10,6 +10,8 @@ class App extends Component {
         squares: Array(9).fill(null),
       }],
       stepNumber: 0,
+      currentLocationY: 0,
+      currentLocationX: 0,
       xIsNext: true,
     };
 
