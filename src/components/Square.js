@@ -12,8 +12,6 @@ function Square(props) {
 Square.propTypes = {
     value: PropTypes.string,
     onClick : PropTypes.func,
-    row : PropTypes.number,
-    col : PropTypes.number,
 };
 
 export default Square;

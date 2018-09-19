@@ -49,3 +49,8 @@ ol, ul {
   margin-left: 20px;
 }
 
+.button-clicked {
+  background-color: blue;
+  color: white;
+}
+

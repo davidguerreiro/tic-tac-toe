@@ -61,11 +61,20 @@ class App extends Component {
     return null;
   }
 
-  jumpTo(step) {
+  jumpTo(e, step) {
+    this.highlightSelectedButton(e);
     this.setState({
       stepNumber: step,
       xIsNext: (step % 2) === 0,
     });
+  }
+
+  highlightSelectedButton(e) {
+    const buttons = document.querySelectorAll('.button');
+    for(let i = 0; i < buttons.length; i++) {
+      buttons[i].classList.remove('button-clicked');
+    }
+    e.target.classList.add('button-clicked');
   }
 
   render() {
@@ -84,7 +93,7 @@ class App extends Component {
       }
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button onClick={(e) => this.jumpTo(e, move)} className="button">{desc}</button>
         </li>
       );
     });
@@ -106,7 +115,7 @@ class App extends Component {
         </div>
         <div className="game-info">
           <div className="status">{status}</div>
-          <ol>
+          <ol key="move-list">
               {moves}
           </ol>
         </div>
