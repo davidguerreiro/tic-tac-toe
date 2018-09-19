@@ -14,7 +14,7 @@ class App extends Component {
     };
 
     this.handleClick = this.handleClick.bind(this);
-    this.jumpTo = this.handleClick.bind(this);
+    this.jumpTo = this.jumpTo.bind(this);
   }
 
   handleClick(i) {
@@ -48,7 +48,7 @@ class App extends Component {
 
     for ( let i = 0; i < lines.length; i++ ) {
         const[a, b, c ] = lines[i];
-        if ( squares[a] && squares[b] === squares[b] && squares[a] === squares[c] ){
+        if ( squares[a] && squares[a] === squares[b] && squares[a] === squares[c] ){
             return squares[a];
         }
     }
