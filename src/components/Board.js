@@ -2,31 +2,34 @@ import React, { Component } from 'react';
 import Square from './Square';
 
 class Board extends Component {
-    renderSquare(i, y, x) {
+    constructor() {
+        super();
+        this.renderRow = this.renderRow.bind(this);
+    }
+    renderSquare(i, y, x) { 
         return <Square 
             value={this.props.squares[i]}
             onClick={() => this.props.onClick(i, y, x)}
+            key={i}
         />
+    }
+
+    renderRow(start, y, limit) {
+        let squares = [];
+        for( let i = start, x = 0; i <= limit; i++, x++ ) {
+            squares.push(this.renderSquare(i, y, x));
+        }
+        return (
+          <div className="board-row">{squares}</div>  
+        );
     }
 
     render() {
         return (
-            <div>
-                <div className="board-row">
-                    {this.renderSquare(0, 0, 0)}
-                    {this.renderSquare(1, 0, 1)}
-                    {this.renderSquare(2, 0, 2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3, 1, 0)}
-                    {this.renderSquare(4, 1, 1)}
-                    {this.renderSquare(5, 1, 2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6, 2, 0)}
-                    {this.renderSquare(7, 2, 1)}
-                    {this.renderSquare(8, 2, 2)}
-                </div>
+            <div>            
+                {this.renderRow(0, 0, 2)}
+                {this.renderRow(3, 1, 5)}
+                {this.renderRow(6, 2, 8)}
             </div>
         );
     }
