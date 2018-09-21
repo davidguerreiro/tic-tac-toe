@@ -20,7 +20,7 @@ class Board extends Component {
             squares.push(this.renderSquare(i, y, x));
         }
         return (
-          <div className="board-row">{squares}</div>  
+          <div className="board-row">{squares}</div>
         );
     }
 

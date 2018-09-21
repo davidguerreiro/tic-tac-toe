@@ -16,6 +16,7 @@ class App extends Component {
 
     this.handleClick = this.handleClick.bind(this);
     this.jumpTo = this.jumpTo.bind(this);
+    this.changeOrder = this.changeOrder.bind(this);
   }
 
   handleClick(i, y, x) {
@@ -37,6 +38,7 @@ class App extends Component {
         stepNumber: history.length,
         xIsNext: !this.state.xIsNext,
         positions: positions,
+        reversed: false,
     });
   }
 
@@ -77,14 +79,35 @@ class App extends Component {
     e.target.classList.add('button-clicked');
   }
 
+  changeOrder() {
+    let reversed = !this.state.reversed;
+    this.setState({
+      reversed: reversed,
+    });
+  }
+
   render() {
-    const history = this.state.history;
-    const positions = this.state.positions;
+    let history = this.state.history;
+    let positions = this.state.positions;
     const current = history[this.state.stepNumber];
     const winner = this.calculateWinner(current.squares);
 
+    if ( this.state.reversed ) {
+      history = history.slice().reverse();
+      positions = positions.slice().reverse();
+    }
+
+
     const moves = history.map((step, move) => {
       let desc;
+      
+      /**
+       * Keys are not reversed by reverse() - only values,
+       * so move key has to be sorted here
+       */
+      if ( this.state.reversed && move > 0 ) {
+        move = history.length - move;
+      }
       
       if ( move ) {
         desc = 'Go to move # ' + move + ' - Position : ' + positions[move - 1];
@@ -118,6 +141,9 @@ class App extends Component {
           <ol key="move-list">
               {moves}
           </ol>
+        </div>
+        <div>
+          <button className="game-change-order-button" onClick={() => this.changeOrder()}>Change order</button>
         </div>
       </div>
     );
