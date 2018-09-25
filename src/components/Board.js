@@ -2,15 +2,30 @@ import React, { Component } from 'react';
 import Square from './Square';
 
 class Board extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.renderRow = this.renderRow.bind(this);
+        this.setSquareClassName = this.setSquareClassName.bind(this);
+    }
+
+    setSquareClassName(position) {
+        let className = 'square';
+        if ( this.props.winnerData.status && this.props.winnerData.lines ) { 
+            for( let i = 0; i < this.props.winnerData.lines.length; i++ ) {
+                if ( this.props.winnerData.lines[i] === position ) {                    
+                    className += ' square__winner';
+                }
+            }
+        }
+        return className;
     }
     renderSquare(i, y, x) { 
+
         return <Square 
             value={this.props.squares[i]}
             onClick={() => this.props.onClick(i, y, x)}
             key={i}
+            className={this.setSquareClassName(i)}
         />
     }
 

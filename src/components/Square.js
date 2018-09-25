@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function Square(props) {
     return(
-        <button className="square" onClick={props.onClick}>
+        <button className={props.className} onClick={props.onClick}>
             {props.value}
         </button>
     );
@@ -11,7 +11,8 @@ function Square(props) {
 
 Square.propTypes = {
     value: PropTypes.string,
-    onClick : PropTypes.func,
+    onClick: PropTypes.func,
+    className: PropTypes.string,
 };
 
 export default Square;

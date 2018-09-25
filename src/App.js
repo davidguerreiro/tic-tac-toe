@@ -17,6 +17,7 @@ class App extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.jumpTo = this.jumpTo.bind(this);
     this.changeOrder = this.changeOrder.bind(this);
+    this.calculateWinner = this.calculateWinner.bind(this);
   }
 
   handleClick(i, y, x) {
@@ -27,7 +28,9 @@ class App extends Component {
     const positions = this.state.positions.slice();
     positions.push( '{' + y + ', ' + x + '}');
     
-    if (this.calculateWinner(squares) || squares[i]) {
+
+    let winnerData = this.calculateWinner(squares)
+    if (winnerData.status || squares[i]) {
         return;
     }
     squares[i] = this.state.xIsNext ? 'X' : 'O';
@@ -43,6 +46,11 @@ class App extends Component {
   }
 
   calculateWinner(squares)  {
+    let winnerData = {
+      status: null,
+      winner: false,
+      lines: null,
+    };
     const lines = [
         [0, 1, 2],
         [3, 4, 5],
@@ -57,10 +65,13 @@ class App extends Component {
     for ( let i = 0; i < lines.length; i++ ) {
         const[a, b, c ] = lines[i];
         if ( squares[a] && squares[a] === squares[b] && squares[a] === squares[c] ){
-            return squares[a];
+            winnerData.status = true;
+            winnerData.winner = this.state.xIsNext ? '0' : 'X';
+            winnerData.lines = lines[i];
+            return winnerData;
         }
     }
-    return null;
+    return winnerData;
   }
 
   jumpTo(e, step) {
@@ -90,7 +101,7 @@ class App extends Component {
     let history = this.state.history;
     let positions = this.state.positions;
     const current = history[this.state.stepNumber];
-    const winner = this.calculateWinner(current.squares);
+    const winnerData = this.calculateWinner(current.squares);
 
     if ( this.state.reversed ) {
       history = history.slice().reverse();
@@ -122,8 +133,8 @@ class App extends Component {
     });
 
     let status;
-    if (winner) {
-        status = 'Winner: ' + winner;
+    if (winnerData.status) {
+        status = 'Winner: ' + winnerData.winner;
     } else {
         status = 'Next player : ' + (this.state.xIsNext ? 'X' : 'O');
     }
@@ -134,6 +145,7 @@ class App extends Component {
           <Board
           squares={current.squares}
           onClick={(i, y, x) => this.handleClick(i, y, x)}
+          winnerData={winnerData}
           />
         </div>
         <div className="game-info">
