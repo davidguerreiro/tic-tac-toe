@@ -51,6 +51,14 @@ class App extends Component {
       winner: false,
       lines: null,
     };
+
+
+    // check tie.
+    if ( !squares.includes(null) ) {
+      winnerData.status = true;
+      winnerData.winner = 'The game ended with a Tie';
+      return winnerData;
+    }
     const lines = [
         [0, 1, 2],
         [3, 4, 5],
@@ -63,7 +71,7 @@ class App extends Component {
     ];
 
     for ( let i = 0; i < lines.length; i++ ) {
-        const[a, b, c ] = lines[i];
+        const[a, b, c] = lines[i];
         if ( squares[a] && squares[a] === squares[b] && squares[a] === squares[c] ){
             winnerData.status = true;
             winnerData.winner = this.state.xIsNext ? '0' : 'X';
@@ -71,6 +79,8 @@ class App extends Component {
             return winnerData;
         }
     }
+
+    
     return winnerData;
   }
 
